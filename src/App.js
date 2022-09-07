@@ -1,25 +1,79 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Post from './components/Post';
+// import posts from './post.json'
+import axios from 'axios';
+import { connect } from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  fetchPosts() {
+    const { setPosts } = this.props;
+    setPosts([]);
+    axios.get('https://631872a1ece2736550ca37b1.mockapi.io/posts')
+      .then(({ data }) => {
+        setPosts(data);
+      });
+  }
+  render() {
+    const { posts } = this.props;
+    const { items } = posts;
+    return (
+      <div>
+        <div><button onClick={this.fetchPosts.bind(this)}>Получить запись</button> </div>
+        <h3> Регионы: </h3>
+        <ul>
+          <li>
+            <button onClick={() => this.props.changeRegion('ING')}> Первый</button></li>
+          <li>
+            <button onClick={() => this.props.changeRegion('CHE')}> Второй</button></li>
+          <li>
+            <button onClick={() => this.props.changeRegion('DAG')}> Третий</button></li>
+        </ul>
+
+        {!items.length ? (
+          <span> Loading...</span>
+        ) :
+          items.map(({ title, description, image }, key) => (
+            <Post
+              key={key}
+              title={title}
+              description={description}
+              image={image}
+            />
+          )
+          )
+        }
+      </div>
+    );
+  }
+
 }
 
-export default App;
+const state = (props) => {
+  return {
+    ...props,
+  };
+}
+
+const actions = (dispatch) => ({
+  setPosts: data =>
+    dispatch({
+      type: 'SET_POSTS',
+      payload: data
+
+    }),
+  changeRegion: name =>
+    dispatch({
+      type: 'CHANGE_REGION',
+      payload: name,
+
+    }),
+});
+
+
+
+export default connect(state, actions)(App);

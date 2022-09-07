@@ -1,13 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import {render} from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import store from './store';
+
+import './index.css';
+
+store.subscribe(() => {
+  alert('stora izmenilac');
+  console.log(store.getState());
+
+});
+
+// setTimeout(()=>{
+//   console.log(store.getState());
+// }, 1000)
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+  <Provider store={store}>
     <App />
+    </Provider>
   </React.StrictMode>
 );
 
