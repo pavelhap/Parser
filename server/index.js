@@ -10,6 +10,8 @@ const saveResult = (json) => {
 };
 
 const urlPage ='https://grozny-inform.ru/news/culture/';
+// const urlPage ='https://magastimes.ru/category/ingushetiya/';
+
 
 parseLinks(urlPage,'.partition_news p a')
 .then(links =>{
@@ -19,10 +21,8 @@ getPosts(links)
 }).catch(e=> console.log(e));
 
 
-
-
-
-
+// parseLinks(urlPage, ' .td-module-title a');
+// parseLinks(urlPage, ' .partition_news p a');
  
 
 
