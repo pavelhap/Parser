@@ -1,19 +1,52 @@
 
-import {fetchLinks, parseLinks, parsePost }from './parsePost.js';
+import { parsePost, getPosts, parseLinks }from './parsePost.js';
 import {elems} from'./configs.js';
+import fs from 'fs';
+
+const saveResult = (json) => {
+    fs.writeFile('result.json', json, err =>{
+        if(err) console.log('not saved');
+    });
+};
 
 const urlPage ='https://grozny-inform.ru/news/culture/';
+
+parseLinks(urlPage,'.partition_news p a')
+.then(links =>{
+getPosts(links)
+.then(posts => saveResult(JSON.stringify(posts, 0, 4)))
+.catch(e=> console.log(e));
+}).catch(e=> console.log(e));
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // const Post = parsePost(
 //     'https://www.grozny-inform.ru/news/culture/142990/',
 //     elems.groznyinform,
 // );
 // Post.then(data=>console.log(data));
-parseLinks(urlPage,'.partition_news p a')
-.then(links =>{
-fetchLinks(links).then(post => console.log(123));
-}).catch(e=> console.log(e));
-
-
   
 // function avby() {
 
@@ -96,11 +129,6 @@ fetchLinks(links).then(post => console.log(123));
 //         })
 
 // }
-
-
-
-
-
 
 
 
