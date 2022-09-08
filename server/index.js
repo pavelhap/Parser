@@ -1,14 +1,20 @@
 
-import parsePost from './parsePost.js';
+import {fetchLinks, parseLinks, parsePost }from './parsePost.js';
 import {elems} from'./configs.js';
 
+const urlPage ='https://grozny-inform.ru/news/culture/';
+// const Post = parsePost(
+//     'https://www.grozny-inform.ru/news/culture/142990/',
+//     elems.groznyinform,
+// );
+// Post.then(data=>console.log(data));
+parseLinks(urlPage,'.partition_news p a')
+.then(links =>{
+fetchLinks(links).then(post => console.log(123));
+}).catch(e=> console.log(e));
 
-const Post = parsePost(
-    'https://cars.av.by/seat/alhambra/101377722',
-    elems.avby,
-);
-Post.then(data=>console.log(data));
 
+  
 // function avby() {
 
 
