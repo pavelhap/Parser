@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import Post from './components/Post';
-// import posts from './post.json'
+import JSON from './post.json';
+import Header from './components/Header';
 import axios from 'axios';
 import { connect } from 'react-redux';
+// import { Container,Header, Button,Item, Segment} from 'semantic-ui-react';
+import {Grid, Card, Container,  CircularProgress, Button,Item, Segment} from '@mui/material/';
+import './index.css';
 
 class App extends Component {
 
@@ -10,44 +14,73 @@ class App extends Component {
     super(props);
   }
 
+  // fetchPosts() {
+  //   const { setPosts } = this.props;
+  //   setPosts([]);
+  //   axios.get('https://631872a1ece2736550ca37b1.mockapi.io/posts')
+  //     .then(({ data }) => {
+  //       setPosts(data);
+  //     });
+  // }
+
+
   fetchPosts() {
     const { setPosts } = this.props;
     setPosts([]);
-    axios.get('https://631872a1ece2736550ca37b1.mockapi.io/posts')
-      .then(({ data }) => {
-        setPosts(data);
-      });
+    setPosts(JSON);
+      
+  };
+
+  UNSAFE_componentWillMount() {
+    this.fetchPosts()
+  }
+  regionText(s) {
+    switch (s) {
+      case 'ING':
+        return 'Первый';
+      case 'DAG':
+        return 'Второй';
+      case 'CHE':
+        return 'Третий';
+    }
   }
   render() {
     const { posts } = this.props;
     const { items } = posts;
     return (
-      <div>
-        <div><button onClick={this.fetchPosts.bind(this)}>Получить запись</button> </div>
-        <h3> Регионы: </h3>
-        <ul>
-          <li>
-            <button onClick={() => this.props.changeRegion('ING')}> Первый</button></li>
-          <li>
-            <button onClick={() => this.props.changeRegion('CHE')}> Второй</button></li>
-          <li>
-            <button onClick={() => this.props.changeRegion('DAG')}> Третий</button></li>
-        </ul>
+    
+      <Container>
+        <Header/>
+        <div><Button variant="text" onClick={this.fetchPosts.bind(this)}>Update</Button> </div>
 
-        {!items.length ? (
-          <span> Loading...</span>
-        ) :
-          items.map(({ title, description, image }, key) => (
-            <Post
-              key={key}
-              title={title}
-              description={description}
-              image={image}
-            />
-          )
-          )
-        }
-      </div>
+        {/* <Button.Group>
+          <Button onClick={this.props.changeRegion.bind(this, 'ING')}>One</Button>
+          <Button onClick={this.props.changeRegion.bind(this, 'CHE')}>Two</Button>
+          <Button onClick={this.props.changeRegion.bind(this, 'DAG')}>Three</Button>
+        </Button.Group> */}
+        <Grid
+         container
+         spacing={0}
+         direction="column"
+         alignItems="center"
+         justify="center"
+         style={{ minHeight: '100vh' }}>
+        <Card 
+        >
+          {!items.length ? (
+                <CircularProgress />
+          ) :
+            items.map((item, key) => (
+              <Post
+                key={key}
+                {...item}
+              />
+            )
+            )
+          }
+        </Card>
+        </Grid>
+      </Container>
     );
   }
 

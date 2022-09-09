@@ -4,17 +4,16 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(240, 239, 239);
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
-.post {
-  display: -webkit-flex;
-  display: -ms-flex;
-  display: flex;
+.posts {
   margin: 30px;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   height: 250px;
@@ -31,3 +30,7 @@ code {
   flex:1;
   padding: 15px 30px;
 }
+/* #root > div > div {
+  display:list-item;
+}
+ */

@@ -1,6 +1,6 @@
 import unirest from 'unirest';
 import cheerio from 'cheerio';
-import { elems } from './configs.js';
+
 
 const log = (i, count, ms) => {
     return new Promise(r =>
@@ -25,8 +25,10 @@ export function parsePost(url, elems) {
 
             const domain = url.match(/\/\/(.*?)\//)[1];
             const title = $(elems.title).text().trim();
-            let image = $(elems.image).attr('src');
-            image = image.indexOf('htpp') >= 0 ? image : `http://${domain}${image}`;
+            // let image = $(elems.image).attr('src');
+            let image;
+            if (!image) image='https://content.onliner.by/automarket/1056036/600x370/e27671cc4290e59a9e180db5b024be97.jpeg';
+            image = image.indexOf('https') >= 0 ? image : `https://${domain}${image}`;
             const text = $(elems.text).text().trim();
 
 
@@ -34,10 +36,12 @@ export function parsePost(url, elems) {
                 title: title,
                 image: image,
                 text: text,
+                url: url,
 
             };
 
             resolve(post);
+            console.log(post);
 
         });
 
@@ -65,14 +69,14 @@ export function parseLinks(url, className, maxLinks = 5) {
 
     });
 }
-export async function getPosts(links) {
+export async function getPosts(links, elems) {
     let posts = [];
     let count = links.length;
     for (let i = 0; i < count; i++) {
         // console.log(links[i]);
         const post = await parsePost(
             links[i],
-            elems.groznyinform).then(
+            elems).then(
                 post => post
             );
         posts.push(post);

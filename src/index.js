@@ -5,11 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './store';
-
+// // import '../node_modules/semantic-ui-css/semantic.min.css';
+// import './styles/semantic.min.css';
+import { Container } from 'semantic-ui-react';
 import './index.css';
 
+
+
 store.subscribe(() => {
-  alert('stora izmenilac');
+  // alert('stora izmenilac');
   console.log(store.getState());
 
 });
