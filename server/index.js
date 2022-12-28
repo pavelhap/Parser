@@ -14,7 +14,7 @@ const urlPage ='https://cars.av.by/bmw'; //2-ой источник
 
 
 
-parseLinks(urlPage,' .listing__items h3 a',10)
+parseLinks(urlPage,' .listing__items h3 a',2)
 .then(links =>{
 getPosts(links, elems.avby)
 .then(posts => saveResult(JSON.stringify(posts, 0, 4)))
